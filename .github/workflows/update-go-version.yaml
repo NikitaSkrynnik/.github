@@ -37,6 +37,7 @@ jobs:
             echo "old-go-version=${OLD_GO_VERSION}" >> "$GITHUB_OUTPUT"
             echo "old-go-major-version=${OLD_GO_MAJOR_VERSION}" >> "$GITHUB_OUTPUT"
 
+
             echo "new-go-version=${NEW_GO_VERSION}" >> "$GITHUB_OUTPUT"
             echo "new-go-major-version=${NEW_GO_MAJOR_VERSION}" >> "$GITHUB_OUTPUT"
 
