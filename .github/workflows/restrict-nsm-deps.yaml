@@ -17,6 +17,7 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
 
+
   restrict-nsm-deps:
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.push.ref, 'update/go_')}}
