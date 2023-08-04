@@ -15,9 +15,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
 
-      - name: Get old and new go versions
+      - name: Get a new Go version
         id: get-go-version
         run: |
             NEW_GO_VERSION=$(echo "${{ github.ref }}" | sed 's/refs\/heads\/update\/go_//g')
