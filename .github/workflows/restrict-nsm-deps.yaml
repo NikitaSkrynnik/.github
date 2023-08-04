@@ -19,7 +19,7 @@ jobs:
 
   restrict-nsm-deps:
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.push.ref, 'update/go_')}}
+    if: ${{ contains(github.event.head_commit.message, 'update/go_')}}
     steps:
       - uses: actions/checkout@v2
       - name: Restrict dependencies on github.com/networkservicemesh/*
