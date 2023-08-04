@@ -41,7 +41,7 @@ jobs:
           git push
 
   create-pull-request:
-    uses: networkservicemesh/.github/.github/workflows/pr-for-updates.yaml@main
+    uses: NikitaSkrynnik/.github/.github/workflows/pr-for-updates.yaml@main
     needs: [update-go-version]
     secrets:
       token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
