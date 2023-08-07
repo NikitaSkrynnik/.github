@@ -2,7 +2,8 @@
 name: Update Go in all NSM repos
 run-name: ${{ github.actor }} has started updating Go version in all NSM repos
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 jobs:
