@@ -13,25 +13,25 @@ jobs:
     steps:
       - uses: hmarr/debug-action@v2
 
-  fetch-repositories:
-    name: Fetch organization repositories
-    runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged == true && contains(github.event.pull_request.head.ref, 'update/go_') }}
-    outputs:
-      repositories: ${{ steps.organization-repositories.outputs.repositories }}
-    steps:
-      - name: Run `get-organization-repositories`
-        id: organization-repositories
-        uses: denis-tingajkin/get-organization-repositories@v1.0.1
-        with:
-          github-organization: 'NikitaSkrynnik'
+  # fetch-repositories:
+  #   name: Fetch organization repositories
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.event.pull_request.merged == true && contains(github.event.pull_request.head.ref, 'update/go_') }}
+  #   outputs:
+  #     repositories: ${{ steps.organization-repositories.outputs.repositories }}
+  #   steps:
+  #     - name: Run `get-organization-repositories`
+  #       id: organization-repositories
+  #       uses: denis-tingajkin/get-organization-repositories@v1.0.1
+  #       with:
+  #         github-organization: 'NikitaSkrynnik'
 
   update-all-repos:
     runs-on: ubuntu-latest
-    needs: fetch-repositories
+    # needs: fetch-repositories
     strategy:
       matrix:
-        repository: ${{ fromJSON(needs.fetch-repositories.outputs.repositories) }}
+        repository: ["NikitaSkrynnik/sdk"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -52,11 +52,23 @@ jobs:
             echo "new-go-version=${NEW_GO_VERSION}" >> "$GITHUB_OUTPUT"
             echo "new-go-major-version=${NEW_GO_MAJOR_VERSION}" >> "$GITHUB_OUTPUT"
 
-      - name: Update Go version in code to ${{ steps.get-version-number.outputs.new-go-version }}
+      - name: Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}
         run: |
-          find .github/workflows -name '*.yaml' -exec sed -i -e 's/go-version\: [0-9]\+\.[0-9]\+\.[0-9]\+/${{steps.get-go-version.outputs.new-go-version}}/g' {} +;
-          find .github/workflows -name '*.yaml' -exec sed -i -e 's/go-version\: [0-9]\+\.[0-9]\+\.[0-9]\+/${{steps.get-go-version.outputs.new-go-version}}/g' {} +;
+          new_go_version=${{ steps.get-go-version.outputs.new-go-version }}
+          new_go_major_version=${{ steps.get-go-version.outputs.new-go-major-version }}
 
+          # Update Go version in all workflows
+          find .github/workflows -name '*.yaml' -exec sed -i -e "s/go-version\: [0-9]\+\.[0-9]\+\.[0-9]\+/go-version:\ $new_go_version/g" {} +;
+          
+          # Update Go version in go.mod
+          sed -i -e "s/go\ [0-9]\+\.[0-9]\+/go $new_go_major_version/g" go.mod
+
+          # Update Go version in Dockerfile if it exists
+          if [ -f "Dockerfile" ]; then
+            sed -i -e "s/golang\:[0-9]\+\.[0-9]\+.[0-9]\+/golang:$new_go_version/g" Dockerfile
+          fi
+          go mod tidy
+          
       - name: Create & push commit
         run: |
           git config --global user.email "nikita.skrynnik@xored.com"
