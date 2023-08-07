@@ -43,7 +43,7 @@ jobs:
       - name: Get a new Go version
         id: get-go-version
         run: |
-            NEW_GO_VERSION=$(echo "${{ github.event.push.head_commit.message }}" | grep -o "[0-9]\+.[0-9]\+.[0-9]\+")
+            NEW_GO_VERSION=$(echo "${{ github.event.pull_request.head.ref }}" | grep -o "[0-9]\+.[0-9]\+.[0-9]\+")
             NEW_GO_MAJOR_VERSION=${NEW_GO_VERSION%.*}
 
             echo "New go version $NEW_GO_VERSION"
