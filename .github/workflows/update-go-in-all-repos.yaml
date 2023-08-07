@@ -2,11 +2,9 @@
 name: Update Go in all NSM repos
 run-name: ${{ github.actor }} has started updating Go version in all NSM repos
 on:
-  workflow_run:
-    types:
-      - completed
-    workflows:
-      - "automerge"
+  push:
+    branches:
+      - main
 jobs:
   print-debug-info:
     name: Print debug info for Release workflow
