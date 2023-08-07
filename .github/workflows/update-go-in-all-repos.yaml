@@ -67,7 +67,7 @@ jobs:
             sed -i -e "s/golang\:[0-9]\+\.[0-9]\+.[0-9]\+/golang:$new_go_version/g" Dockerfile
           fi
 
-          git diff 
+          git diff
           go mod tidy
 
           git diff
