@@ -1,5 +1,5 @@
 ---
-name: Automerge
+name: automerge
 on:
   workflow_run:
     types:
