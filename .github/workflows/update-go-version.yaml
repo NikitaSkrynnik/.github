@@ -31,7 +31,7 @@ jobs:
 
       - name: Update Go version in code to ${{ steps.get-version-number.outputs.new-go-version }}
         run: |
-          find . -name '*.yaml' -exec sed -i -e 's/go-version\: [0-9]\+\.[0-9]\+\.[0-9]\+/${{steps.get-go-version.outputs.new-go-version}}/g' {} +;
+          find . -name '*.yaml' -exec sed -i -e 's/go-version\: [0-9]\+\.[0-9]\+\.[0-9]\+/go-version\: ${{steps.get-go-version.outputs.new-go-version}}/g' {} +;
 
       - name: Create & push commit
         run: |
