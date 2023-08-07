@@ -33,13 +33,6 @@ jobs:
       matrix:
         repository: ["NikitaSkrynnik/sdk", "NikitaSkrynnik/cmd-forwarder-ovs"]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          path: ${{ matrix.repository }}
-          repository: ${{ matrix.repository }}
-          token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
-
       - name: Get a new Go version
         id: get-go-version
         run: |
@@ -52,8 +45,17 @@ jobs:
             echo "new-go-version=${NEW_GO_VERSION}" >> "$GITHUB_OUTPUT"
             echo "new-go-major-version=${NEW_GO_MAJOR_VERSION}" >> "$GITHUB_OUTPUT"
 
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: ${{ matrix.repository }}
+          repository: ${{ matrix.repository }}
+          token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
+
       - name: Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}
         run: |
+          ls .
+          ls ./..
           new_go_version=${{ steps.get-go-version.outputs.new-go-version }}
           new_go_major_version=${{ steps.get-go-version.outputs.new-go-major-version }}
 
