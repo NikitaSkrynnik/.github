@@ -31,7 +31,7 @@ jobs:
     # needs: fetch-repositories
     strategy:
       matrix:
-        repository: ["NikitaSkrynnik/sdk"]
+        repository: ["NikitaSkrynnik/sdk", "NikitaSkrynnik/cmd-forwarder-ovs"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -68,7 +68,7 @@ jobs:
             sed -i -e "s/golang\:[0-9]\+\.[0-9]\+.[0-9]\+/golang:$new_go_version/g" Dockerfile
           fi
           go mod tidy
-          
+
       - name: Create & push commit
         run: |
           git config --global user.email "nikita.skrynnik@xored.com"
