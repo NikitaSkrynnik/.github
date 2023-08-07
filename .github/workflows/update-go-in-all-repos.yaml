@@ -59,27 +59,21 @@ jobs:
           # Update Go version in all workflows
           find .github/workflows -name '*.yaml' -exec sed -i -e "s/go-version\: [0-9]\+\.[0-9]\+\.[0-9]\+/go-version:\ $new_go_version/g" {} +;
 
-          cat go.mod
-
           # Update Go version in go.mod
           sed -i -e "s/go\ [0-9]\+\.[0-9]\+/go $new_go_major_version/g" go.mod
-
-          cat go.mod
 
           # Update Go version in Dockerfile if it exists
           if [ -f "Dockerfile" ]; then
             sed -i -e "s/golang\:[0-9]\+\.[0-9]\+.[0-9]\+/golang:$new_go_version/g" Dockerfile
           fi
 
+          go mod tidy
+
       - name: Create & push commit
         run: |
-          find . -type d
-          git diff
-          git status
           branch=${{ github.event.pull_request.head.ref }}
           git config --global user.email "nikita.skrynnik@xored.com"
           git config --global user.name "NikitaSkrynnik"
           git checkout -b $branch
-          git status
           git commit -s -a -m "Update Go version to ${{ steps.get-go-version.outputs.new-go-version }}"
           git push
