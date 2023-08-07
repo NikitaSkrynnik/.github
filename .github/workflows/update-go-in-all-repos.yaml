@@ -53,9 +53,6 @@ jobs:
 
       - name: Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}
         run: |
-          ls .
-          find . -type d
-
           new_go_version=${{ steps.get-go-version.outputs.new-go-version }}
           new_go_major_version=${{ steps.get-go-version.outputs.new-go-major-version }}
 
