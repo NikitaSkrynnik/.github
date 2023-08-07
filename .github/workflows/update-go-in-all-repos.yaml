@@ -76,4 +76,4 @@ jobs:
           git config --global user.name "NikitaSkrynnik"
           git checkout -b $branch
           git commit -s -a -m "Update Go version to ${{ steps.get-go-version.outputs.new-go-version }}"
-          git push
+          git push -u origin $branch
