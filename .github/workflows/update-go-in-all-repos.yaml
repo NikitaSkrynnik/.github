@@ -64,4 +64,3 @@ jobs:
           git config --global user.name "NikitaSkrynnik"
           git commit -s -a -m "Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}"
           git push
-
