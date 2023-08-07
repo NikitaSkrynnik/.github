@@ -48,7 +48,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          path: ${{ matrix.repository }}
           repository: ${{ matrix.repository }}
           token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
 
