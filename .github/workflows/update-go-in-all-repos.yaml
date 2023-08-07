@@ -70,9 +70,11 @@ jobs:
 
       - name: Create & push commit
         run: |
+          git status
           branch=${{ github.event.pull_request.head.ref }}
           git config --global user.email "nikita.skrynnik@xored.com"
           git config --global user.name "NikitaSkrynnik"
           git checkout -b $branch
+          git status
           git commit -s -a -m "Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}"
           git push
