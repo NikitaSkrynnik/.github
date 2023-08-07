@@ -65,8 +65,3 @@ jobs:
           git commit -s -a -m "Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}"
           git push
 
-  create-pull-request:
-    uses: NikitaSkrynnik/.github/.github/workflows/pr-for-updates.yaml@main
-    needs: [update-go-version]
-    secrets:
-      token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
