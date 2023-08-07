@@ -51,7 +51,7 @@ jobs:
           repository: ${{ matrix.repository }}
           token: ${{ secrets.NSM_BOT_GITHUB_TOKEN }}
 
-      - name: Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}
+      - name: Update Go version to ${{ steps.get-go-version.outputs.new-go-version }}
         run: |
           new_go_version=${{ steps.get-go-version.outputs.new-go-version }}
           new_go_major_version=${{ steps.get-go-version.outputs.new-go-major-version }}
@@ -68,13 +68,17 @@ jobs:
           fi
           go mod tidy
 
+          git diff
+
       - name: Create & push commit
         run: |
+          find . -type d
+          git diff
           git status
           branch=${{ github.event.pull_request.head.ref }}
           git config --global user.email "nikita.skrynnik@xored.com"
           git config --global user.name "NikitaSkrynnik"
           git checkout -b $branch
           git status
-          git commit -s -a -m "Update Go version to ${{ steps.get-version-number.outputs.new-go-version }}"
+          git commit -s -a -m "Update Go version to ${{ steps.get-go-version.outputs.new-go-version }}"
           git push
