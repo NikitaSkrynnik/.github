@@ -3,7 +3,7 @@ name: Check mergeability
 on:
   workflow_call:
     inputs:
-      pr_branch_ref:
+      pr_branch:
         type: string
         required: true
     secrets:
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.pr_branch_ref }}
+          ref: ${{ inputs.pr_branch }}
           fetch-depth: 0
           token: ${{ secrets.token }}
       - name: Verify conflicts only in go.mod/go.sum
@@ -52,7 +52,7 @@ jobs:
           go-version: 1.20.12
       - name: Update version manually
         run: |
-          branch=${{ inputs.pr_branch_ref }}
+          branch=${{ inputs.pr_branch }}
           repository=${branch#update/networkservicemesh/}
           echo Update ${repository} version in go.mod manually
           go get -u github.com/networkservicemesh/${repository}@main
@@ -65,5 +65,5 @@ jobs:
           git config --global user.name "NSMBot"
           git add -- go.sum go.mod
           git commit -s -F /tmp/commit-message
-          echo "Force-pushing changes to ${{ inputs.pr_branch_ref }}"
-          git push -f origin ${{ inputs.pr_branch_ref }}
+          echo "Force-pushing changes to ${{ inputs.pr_branch }}"
+          git push -f origin ${{ inputs.pr_branch }}
