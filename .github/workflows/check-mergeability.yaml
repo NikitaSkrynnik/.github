@@ -17,6 +17,9 @@ jobs:
       pr_number: ${{ steps.validate_pr.outputs.pr_number }}
       mergeable: ${{ steps.validate_pr.outputs.mergeable }}
     steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
       - name: Check PR
         id: check_pr
         run: |
