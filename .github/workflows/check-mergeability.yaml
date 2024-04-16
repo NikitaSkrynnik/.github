@@ -26,8 +26,8 @@ jobs:
           pr_info=$(gh pr list --head ${{ github.event.workflow_run.head_branch }} --json number,mergeable)
 
           echo pr_info: $pr_info
-          pr_number=$(echo $pr_info | jq '.[0].number')
-          mergeable=$(echo $pr_info | jq '.[0].mergeable')
+          pr_number=$(echo $pr_info | jq -r '.[0].number')
+          mergeable=$(echo $pr_info | jq -r '.[0].mergeable')
 
           if [ "$pr_number" == "null" ]; then
             echo "No opened PR was found for branch ${{ github.event.workflow_run.head_branch }}"
