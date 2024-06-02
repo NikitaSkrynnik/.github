@@ -16,14 +16,14 @@ jobs:
       - name: Checkout deployments-k8s
         uses: actions/checkout@v4
         with:
-          repository: networkservicemesh/deployments-k8s
+          repository: NikitaSkrynnik/deployments-k8s
           token: ${{ secrets.token }}
 
       - name: Push update to the deployments-k8s
         shell: bash {0} # This option makes script continue execution even if some commands return non-zero exit code
         run: |
-          git config --global user.email "nsmbot@networkservicmesh.io"
-          git config --global user.name "NSMBot"
+          git config --global user.email "nikita.skrynnik@xored.com"
+          git config --global user.name "NikitaSkrynnik"
 
           branch=release/${{ inputs.tag }}
           git checkout -b $branch
@@ -33,7 +33,7 @@ jobs:
             exit 0
           fi
 
-          gh workflow run check-tag.yaml -f branch=$branch --repo networkservicemesh/deployments-k8s
+          gh workflow run check-tag.yaml -f branch=$branch --repo NikitaSkrynnik/deployments-k8s
         env:
           GH_TOKEN: ${{ secrets.token }}
 
